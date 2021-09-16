@@ -59,7 +59,7 @@ function m_grid(varargin)
 %  21/06/2018 added axes option to specify the axes to draw the grid on (instead of
 %              gca) - thanks to Yoann Ladroit.
 %  23/12/2018 - aesthetic improvement to mollweide projection.
-
+%  16/09/2021 - changed char(176) to native2unicode(176) @hdfeos
 %
 % Note that much of the work in generating line data 
 % is done by calls to the individual projections - 
@@ -413,7 +413,6 @@ if ~isempty(xtick)
 
  [X,Y,lg,lgI]=feval(MAP_PROJECTION.routine,'xgrid',xtick,gxaxisloc,gtickstyle);
  [labs,scl]=m_labels('lon',lg,xlabels,gtickstyle);
- 
  % Draw the grid. Every time we draw something, I first reshape the matrices into a long
  % row so that a) it plots faster, and b) all lines are given the same handle (which cuts
  % down on the number of children hanging onto the axes).
@@ -720,7 +719,7 @@ if strcmp(tickstyle,'dm')
    for k=1:length(vals)
      if rem(vals(k),1)==0
        nam=find(i(:,k));
-       L{k}=sprintf([' %3.0f' char(176) labname(nam) ' '],vals(k));
+       L{k}=sprintf([' %3.0f' native2unicode(176) labname(nam) ' '],vals(k));
      elseif abs(vals*60-round(vals*60))<.01
        L{k}=sprintf([' %2.0f'' '],rem(vals(k),1)*60);
        fs(k)=0.75;
@@ -737,8 +736,8 @@ if strcmp(tickstyle,'dm')
    if ~any(fs==1)  
     k=round(length(vals)/2);
     nam=find(i(:,k));
-    L{k}={sprintf([' %3.0f' char(176) labname(nam) ' '],fix(vals(k))),...
-	  sprintf([' %2.2f'' '],rem(vals(k),1)*60)};
+    L{k}={sprintf([' %3.0f' native2unicode(176) labname(nam) ' '],fix(vals(k))),...
+         sprintf([' %2.2f'' '],rem(vals(k),1)*60)};
     fs(k)=1;
    end
    
@@ -782,7 +781,7 @@ elseif strcmp(tickstyle,'dd')
    for k=1:length(vals)
      if rem(vals(k),1)==0
        nam=find(i(:,k));
-       L{k}=sprintf([' %3.0f' char(176) labname(nam) ' '],vals(k));
+       L{k}=sprintf([' %3.0f' native2unicode(176) labname(nam) ' '],vals(k));
      elseif abs(vals*100-round(vals*100))<0.01
        L{k}=sprintf([' %2.2f'],vals(k));
        fs(k)=0.75;
